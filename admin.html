@@ -58,7 +58,7 @@
   </div>
   <script>
     async function loadReport() {
-      const res = await fetch("http://localhost:5000/admin-report");
+      const res = await fetch("https://farmtotable-backend.onrender.com/admin-report");
       const data = await res.json();
       document.getElementById("reportDiv").innerHTML = `
         <div class="report-stat"><span class="stat-label">Total Orders:</span> ${data.totalOrders}</div>
