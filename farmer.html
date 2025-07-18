@@ -191,7 +191,7 @@
       if (!name || !category || !quantity || !price || !farmerEmail) {
         alert("All fields are required"); return;
       }
-      const res = await fetch("http://localhost:5000/add-product", {
+      const res = await fetch("https://farmtotable-backend.onrender.com/add-product", {
         method: "POST",
         headers: {"Content-Type":"application/json"},
         body: JSON.stringify({farmerEmail, name, category, quantity, price})
@@ -213,7 +213,7 @@
           "<span style='color:#ccc;'>Enter your email above and click 'View My Products'</span>";
         return;
       }
-      const res = await fetch(`http://localhost:5000/products?farmerEmail=${encodeURIComponent(farmerEmail)}`);
+      const res = await fetch(`https://farmtotable-backend.onrender.com/products?farmerEmail=${encodeURIComponent(farmerEmail)}`);
       const products = await res.json();
       if (products.length === 0) {
         document.getElementById("productList").innerHTML = "<em>No products found.</em>";
@@ -270,7 +270,7 @@
       const category = document.getElementById("editCategory").value;
       const quantity = document.getElementById("editQuantity").value;
       const price = document.getElementById("editPrice").value;
-      const res = await fetch(`http://localhost:5000/update-product/${id}`, {
+      const res = await fetch(`https://farmtotable-backend.onrender.com/update-product/${id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name, category, quantity, price })
@@ -284,7 +284,7 @@
     }
     async function deleteProduct(id) {
       if (!confirm("Are you sure you want to delete this product?")) return;
-      const res = await fetch(`http://localhost:5000/delete-product/${id}`, {
+      const res = await fetch(`https://farmtotable-backend.onrender.com/delete-product/${id}`, {
         method: "DELETE"
       });
       const data = await res.json();
