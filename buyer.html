@@ -157,7 +157,7 @@
     async function loadProducts() {
       const search = document.getElementById("search").value.trim().toLowerCase();
       const filter = document.getElementById("filter").value;
-      const res = await fetch("http://localhost:5000/all-products");
+      const res = await fetch("https://farmtotable-backend.onrender.com/all-products");
       let products = await res.json();
       if (filter !== "all") products = products.filter(p => p.category === filter);
       if (search) products = products.filter(p => p.name.toLowerCase().includes(search));
@@ -218,7 +218,7 @@
       if (cart.length === 0) return alert("Cart is empty!");
       const total = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
       const finalAmount = +(total * 1.015).toFixed(2);
-      const res = await fetch("http://localhost:5000/create-order", {
+      const res = await fetch("https://farmtotable-backend.onrender.com/create-order", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ totalAmount: finalAmount })
@@ -233,7 +233,7 @@
         order_id: order.id,
         handler: async function (response) {
           alert("✅ Payment successful!");
-          await fetch("http://localhost:5000/record-order", {
+          await fetch("https://farmtotable-backend.onrender.com/record-order", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
