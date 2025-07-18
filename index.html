@@ -109,7 +109,9 @@
   </div>
 
   <script>
-    // Auto-set email field for admin
+    // ✅ Set your live backend URL here (no trailing slash)
+    const API_BASE = "https://farmtotable-backend.onrender.com";
+
     function toggleAdmin() {
       const role = document.getElementById("role").value;
       const emailField = document.getElementById("email");
@@ -123,27 +125,46 @@
       }
     }
 
-    toggleAdmin(); // Initialize on page load
+    toggleAdmin(); // initialize on load
 
     async function login() {
       const role = document.getElementById("role").value;
       const email = document.getElementById("email").value;
       const password = document.getElementById("password").value;
 
-      if (!password) return alert("Please enter password");
+      if (!email || !password) {
+        alert("Please fill both email and password.");
+        return;
+      }
 
-      const response = await fetch("http://localhost:5000/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password, role })
-      });
+      try {
+        const response = await fetch(`${API_BASE}/login`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, password, role })
+        });
 
-      const data = await response.json();
-      if (data.error) {
-        alert("❌ Login failed: " + data.error);
-      } else {
-        alert("✅ Welcome " + data.name + "!");
-        // Redirect logic could go here
+        const data = await response.json();
+
+        if (data.error) {
+          alert("❌ Login failed: " + data.error);
+        } else {
+          alert("✅ Welcome " + data.name + "!");
+
+          // ✅ Role-based navigation
+          if (data.role === "admin") {
+            window.location.href = "admin.html";
+          } else if (data.role === "farmer") {
+            window.location.href = "farmer.html";
+          } else if (data.role === "buyer") {
+            window.location.href = "buyer.html";
+          } else {
+            alert("Unknown user role.");
+          }
+        }
+
+      } catch (err) {
+        alert("🚫 Error connecting to server: " + err.message);
       }
     }
   </script>
